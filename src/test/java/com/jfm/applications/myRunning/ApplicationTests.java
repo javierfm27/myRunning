@@ -1,10 +1,10 @@
-package com.jfm.applications.local;
+package com.jfm.applications.myRunning;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LocalApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {
