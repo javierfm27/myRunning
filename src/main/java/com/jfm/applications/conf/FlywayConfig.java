@@ -1,4 +1,4 @@
-package com.jfm.applications.myRunning;
+package com.jfm.applications.conf;
 
 import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
