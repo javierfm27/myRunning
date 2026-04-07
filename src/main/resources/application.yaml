@@ -1,15 +1,12 @@
 spring:
     application:
         name: myRunning
-    datasource:
-        url: jdbc:h2:mem:myRunning;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        driverClassName: org.h2.Driver
-        username: sa
-        password: admin
-    sql:
-        init:
-            schema-locations: classpath:static/sql/schema.sql
-            data-locations: classpath:static/sql/data.sql
+    profiles:
+        active: local  # Cambiar a 'PRD' para producción
     jpa:
-        defer-datasource-initialization: true
+        hibernate:
+            ddl-auto: none  # Flyway maneja el esquema
+    # Esto es para evitar problemas de referencias circulares en Spring Boot 2.6 y versiones posteriores
+    main:
+        allow-circular-references: true
 
