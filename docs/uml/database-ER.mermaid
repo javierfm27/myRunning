@@ -1,0 +1,36 @@
+---
+title: Database myRunning ER
+--- 
+erDiagram
+
+
+    ac[ACTIVITY] {
+        integer id PK
+        integer type_activity FK
+        integer distance
+        bigint total_duration
+        integer average_speed
+        integer pace_seconds_per_km
+        integer max_bpm
+        integer average_bpm
+        json paces_per_km
+        varchar feelings
+    }
+
+    ta[TYPE_ACTIVITY] {
+        integer id
+        varchar name
+    }
+
+    ra[RECOMMENDATION_ACTIVITY] {
+        integer id PK
+        integer type_activity FK
+        integer distance
+        integer pace_seconds_per_km
+        integer max_bpm
+        integer average_bpm
+        json paces_per_km
+    }
+
+    ac ||--o{ ta : "belongs to"
+    ra ||--o{ ta : "belongs to"
