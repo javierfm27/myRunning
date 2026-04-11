@@ -1,0 +1,41 @@
+---
+title : Arquitectura Hexagonal - MyRunning API
+---
+graph LR
+
+    U[Usuario Final]
+    DB[(Base de Datos)]
+
+    subgraph "MyRunning API"
+        subgraph "Dominio (Domain)"
+            D1[Entities]
+            D2[Lógica]
+            D3[Ports]
+        end
+
+        subgraph "Aplicación (Application)"
+            A1[Casos de Uso]
+            A2[Servicios de Aplicación]
+        end
+
+        subgraph "Infraestructura (Infrastructure)"
+            subgraph "Adaptadores de Entrada"
+                I1[Controladores REST API]
+                I2[Adaptadores de Interfaz de Usuario]
+            end
+
+            subgraph "Adaptadores de Salida"
+                O1[Adaptadores de Base de Datos]
+                O2[Repositorios JPA]
+                O3[Adaptadores Externos]
+            end
+        end
+    end
+
+    U -->  I1
+    I1 --> A1
+    A1 --> A2
+    A2 --> D3
+    D3 --> O2
+    O2 --> DB
+    
