@@ -1,0 +1,98 @@
+---
+title: MyRunning Class Diagram - Domain Layer
+---
+classDiagram
+    namespace Domain {
+        class Activity {
+            -UUID id
+            -Distance kilometers
+            -Pace pace
+            -Duration totalTime
+            -ActivityType type
+            -LocalDateTime date
+            -Map~String, Object~ fartlekData
+        }
+
+        class Distance {
+            -double value
+            -String unit
+        }
+
+        class Pace {
+            -double value
+            -String unit
+        }
+
+        class Duration {
+            -long value
+            -String unit
+        }
+
+        class ActivityType {
+            <<enumeration>> 
+            NORMAL
+            TREKKING
+            FARTLEK
+            SERIES
+            LISS
+        }
+    }
+
+    namespace infraestructure {
+        class ActivityController {
+            +getAllActivities() : ResponseEntity~List~ActivityDTO~~
+        }
+
+        class ActivityDTO {
+            -UUID id
+            -double distance
+            -String pace
+            -long duration
+            -String type
+            -LocalDateTime date
+        }
+
+        class SeriesDTO {
+            <<extends ActivityDTO>>
+            -List~PaceKilometerDTO~ paceKilometers
+        }
+
+        class PaceKilometerDTO {
+            -int kilometer
+            -String pace
+        }
+
+        class ActivityRequest {
+            -double distance
+            -String pace
+            -long duration
+            -String type
+            -LocalDateTime date
+        }
+
+        class SeriesRequest {
+            <<extends ActivityRequest>>
+            -List~PaceKilometer~ paceKilometers
+        }
+
+        class PaceKilometer {
+            -int kilometer
+            -String pace
+        }
+        
+
+    }
+
+    %% Relaciones capa DOMINIO
+    Activity --> "1" Distance : uses
+    Activity --> "1" Pace : uses
+    Activity --> "1" Duration : uses
+    Activity --> "1" ActivityType : uses
+
+    %% Relaciones capa INFRAESTRUCTURE
+    ActivityController --> ActivityDTO : returns
+    ActivityDTO <|-- SeriesDTO : extends
+    SeriesDTO --> "1..n" PaceKilometerDTO : contains
+    ActivityController --> ActivityRequest : receives
+    ActivityRequest <|-- SeriesRequest : extends
+    SeriesRequest --> "1..n" PaceKilometer : contains
