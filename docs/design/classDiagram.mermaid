@@ -41,6 +41,7 @@ classDiagram
     namespace infraestructure {
         class ActivityController {
             +getAllActivities() : ResponseEntity~List~ActivityDTO~~
+            +postActivity(request : ActivityRequest) : ResponseEntity~ActivityDTO~
         }
 
         class ActivityDTO {
@@ -83,6 +84,32 @@ classDiagram
 
     }
 
+    namespace Application {
+        class ActivityService {
+            +postActivity(request : ActivityRequest) : ActivityDTO
+            +getAllActivities() : List~ActivityDTO~
+            +getActivityById(id : UUID) : ActivityDTO
+            +getRecommendActivity() : ActivityDTO
+        }
+
+        class GetAllActivitiesUseCase {
+            +execute() : List~Activity~
+        }
+
+        class GetActivityByIdUseCase {
+            +execute(id : UUID) : Activity
+        }
+
+        class PostActivityUseCase {
+            +execute(request : ActivityRequest) : Activity 
+        }
+
+        class GetRecommendActivityUseCase {
+            +execute() : Activity
+        }
+
+    }
+
     %% Relaciones capa DOMINIO
     Activity --> "1" Distance : uses
     Activity --> "1" Pace : uses
@@ -96,3 +123,9 @@ classDiagram
     ActivityController --> ActivityRequest : receives
     ActivityRequest <|-- SeriesRequest : extends
     SeriesRequest --> "1..n" PaceKilometer : contains
+
+    %% Relaciones capa APPLICATION
+    ActivityService --> GetAllActivitiesUseCase : uses
+    ActivityService --> GetActivityByIdUseCase : uses
+    ActivityService --> GetRecommendActivityUseCase : uses
+    ActivityService --> PostActivityUseCase : uses
