@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant Client
+    participant ActivityController
+    participant ActivityService
+    participant GetActivityUseCase
+    participant Repository
+
+    Client->>ActivityController: GET /activities/{id}
+    ActivityController->>ActivityService: getActivity(id)
+    ActivityService->>GetActivityUseCase: execute(id)
+    GetActivityUseCase->>Repository: findById(id)
+    Repository-->>GetActivityUseCase: activity
+    GetActivityUseCase-->>ActivityService: activity
+    ActivityService-->>ActivityController: activity
+    ActivityController-->>Client: ResponseEntity(activity)

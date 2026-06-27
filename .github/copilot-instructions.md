@@ -1,0 +1,1 @@
+- Por cada cambio, si los packages se han modificado, se debe actualizar el README.md con el directorio del package y el nombre del package. Esto es importante para que los usuarios puedan encontrar fácilmente la documentación de cada package.

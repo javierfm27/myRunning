@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant Client
+    participant ActivityController
+    participant PostActivityUseCase
+    participant ActivityService
+    participant Repository
+
+    Client->>ActivityController: POST /activities
+    ActivityController->>PostActivityUseCase: execute(request)
+    PostActivityUseCase->>ActivityService: postActivity(request)
+    ActivityService->>Repository: save(activity)
+    Repository-->>ActivityService: activity
+    ActivityService-->>PostActivityUseCase: activity
+    PostActivityUseCase-->>ActivityController: activity
+    ActivityController-->>Client: ResponseEntity(activity)
+    

@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: myRunning
+    profiles:
+        active: local  # Cambiar a 'PRD' para producción
+    jpa:
+        hibernate:
+            ddl-auto: none  # Flyway maneja el esquema
+    # Esto es para evitar problemas de referencias circulares en Spring Boot 2.6 y versiones posteriores
+    main:
+        allow-circular-references: true
+

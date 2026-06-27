@@ -76,3 +76,56 @@ En Windows:
 - `src/main/java/com/jfm/applications/myRunning/Application.java`
 - `src/main/resources/application.properties`
 - `src/test/java/com/jfm/applications/myRunning/ApplicationTests.java`
+
+## Arquitectura y Diseño
+
+El proyecto sigue la **Arquitectura Hexagonal** para mantener una separación clara de responsabilidades:
+
+```mermaid
+---
+title : Arquitectura Hexagonal - MyRunning API
+---
+graph LR
+
+    U[Usuario Final]
+    DB[(Base de Datos)]
+
+    subgraph "MyRunning API"
+        subgraph "Dominio (Domain)"
+            D1[Entities]
+            D2[Lógica]
+            D3[Ports]
+        end
+
+        subgraph "Aplicación (Application)"
+            A1[Casos de Uso]
+            A2[Servicios de Aplicación]
+        end
+
+        subgraph "Infraestructura (Infrastructure)"
+            subgraph "Adaptadores de Entrada"
+                I1[Controladores REST API]
+                I2[Adaptadores de Interfaz de Usuario]
+            end
+
+            subgraph "Adaptadores de Salida"
+                O1[Adaptadores de Base de Datos]
+                O2[Repositorios JPA]
+                O3[Adaptadores Externos]
+            end
+        end
+    end
+
+    U -->  I1
+    I1 --> A1
+    A1 --> A2
+    A2 --> D3
+    D3 --> O2
+    O2 --> DB
+```
+
+- **Domain**: Contiene las entidades del dominio, la lógica de negocio y los puertos (interfaces)
+- **Application**: Casos de uso y servicios de aplicación que orquestan la lógica del dominio
+- **Infrastructure**: Adaptadores para entrada (HTTP Controllers) y salida (Bases de datos, servicios externos)
+
+Esta arquitectura permite que el dominio sea independiente de frameworks y detalles técnicos.
